@@ -44,18 +44,18 @@ extract_commute_leg <- function(tfl_data, from, to, start.time, interval = 60){
 	return(tfl_data)
 }
 
-hist_data <- function(commute.to, commute.from){
+merge_labeled <- function(commute.to, commute.from){
 	commute.to$Label <- factor("To")
 	commute.from$Label <- factor("From")
 	return(rbind(commute.to, commute.from))
 }
 
-hist_from_vs_to <- function(hist_data){
-	hist <- ggplot(hist.data, aes(x=Duration, fill=Label)) + geom_histogram(binwidth=1, position="dodge")
+hist_from_vs_to <- function(commute.labeled){
+	hist <- ggplot(commute.labeled, aes(x=Duration, fill=Label)) + geom_histogram(binwidth=1, position="dodge")
 	return(hist)
 }
 
-density_by_day <- function(hist_data){
-	hist <- ggplot(hist.data, aes(x=Duration, colour=Weekday)) + geom_density(alpha=.3)
+density_by_day <- function(commute.data){
+	hist <- ggplot(commute.data, aes(x=Duration, colour=Weekday)) + geom_density(alpha=.3)
 	return(hist)
 }
