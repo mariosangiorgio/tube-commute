@@ -11,7 +11,7 @@ load_data <- function(file){
 	# As far as I can tell, this includes auto-topup and bus rides
 	tfl_data <- subset(tfl_data, End.Time != "")
 	tfl_data$Date <- as.Date(tfl_data$Date, format = "%d-%b-%Y")
-	tfl_data$Weekday <- weekdays(tfl_data$Date)
+	tfl_data$Weekday <- factor(weekdays(tfl_data$Date))
 	# Converts strings like 08:30 to the corresponding minutes from midnight
 	as.MinutesSinceMidnight <- function(hour){
 		tokens <- strsplit(hour, ':')[[1]]
