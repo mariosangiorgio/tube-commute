@@ -43,3 +43,14 @@ extract_commute_leg <- function(tfl_data, from, to, start.time, interval = 60){
 					(Start.Time < interval.end) )
 	return(tfl_data)
 }
+
+hist_data <- function(commute.to, commute.from){
+	commute.to$Label <- factor("To")
+	commute.from$Label <- factor("From")
+	return(rbind(commute.to, commute.from))
+}
+
+hist_plot <- function(hist_data){
+	hist <- ggplot(hist.data, aes(x=Duration, fill=Label)) + geom_histogram(binwidth=1, position="dodge")
+	return(hist)
+}
