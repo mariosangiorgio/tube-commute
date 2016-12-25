@@ -50,7 +50,12 @@ hist_data <- function(commute.to, commute.from){
 	return(rbind(commute.to, commute.from))
 }
 
-hist_plot <- function(hist_data){
+hist_from_vs_to <- function(hist_data){
 	hist <- ggplot(hist.data, aes(x=Duration, fill=Label)) + geom_histogram(binwidth=1, position="dodge")
+	return(hist)
+}
+
+density_by_day <- function(hist_data){
+	hist <- ggplot(hist.data, aes(x=Duration, colour=Weekday)) + geom_density(alpha=.3)
 	return(hist)
 }
