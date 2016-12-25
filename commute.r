@@ -38,6 +38,7 @@ extract_commute_leg <- function(tfl_data, from, to, start.time, interval = 60){
 	tfl_data <- subset(tfl_data,
 					(From == from) &					
 					(To == to) &
+					!(Weekday %in% c('Saturday', 'Sunday'))&
 					(Start.Time > interval.start) &
 					(Start.Time < interval.end) )
 	return(tfl_data)
