@@ -19,8 +19,9 @@ load_data <- function(file){
 	}
 	tfl_data$Start.Time <- sapply(tfl_data$Start.Time, as.MinutesSinceMidnight)
 	tfl_data$End.Time <- sapply(tfl_data$End.Time, as.MinutesSinceMidnight)
+	tfl_data$Duration <- (tfl_data$End.Time - tfl_data$Start.Time) %% (60*24) # Rides might cross day boundary
 	tfl_data <- tfl_data %>% separate(Journey.Action, c("From", "To"), " to ")
 	tfl_data$From <- factor(tfl_data$From)
 	tfl_data$To <- factor(tfl_data$To)	
-	return(subset(tfl_data, select= c(Date, Start.Time, End.Time, From, To)))
+	return(subset(tfl_data, select= c(Date, Start.Time, End.Time, Duration, From, To)))
 }
