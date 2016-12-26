@@ -2,6 +2,7 @@
 # performs some basic transformation
 library(dplyr)
 library(tidyr)
+library(ggplot2)
 
 load_data <- function(file){
 	# TODO: probably better to make this load all the files in a folder
@@ -11,7 +12,8 @@ load_data <- function(file){
 	# As far as I can tell, this includes auto-topup and bus rides
 	tfl_data <- subset(tfl_data, End.Time != "")
 	tfl_data$Date <- as.Date(tfl_data$Date, format = "%d-%b-%Y")
-	tfl_data$Weekday <- factor(weekdays(tfl_data$Date))
+	tfl_data$Weekday <- factor(weekdays(tfl_data$Date), levels =
+		c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))
 	# Converts strings like 08:30 to the corresponding minutes from midnight
 	as.MinutesSinceMidnight <- function(hour){
 		tokens <- strsplit(hour, ':')[[1]]
@@ -50,12 +52,26 @@ merge_labeled <- function(commute.to, commute.from){
 	return(rbind(commute.to, commute.from))
 }
 
-hist_from_vs_to <- function(commute.labeled){
-	hist <- ggplot(commute.labeled, aes(x=Duration, fill=Label)) + geom_histogram(binwidth=1, position="dodge")
+start_time_from_vs_to <- function(commute.labeled){
+	chart <- ggplot(commute.labeled, aes(x=Date, y=(Start.Time/60), colour=Label)) +
+		geom_point() +
+		ylab("Ride start time (hour of the day)")
+	return(chart)
+}
+
+visualisation_from_vs_to <- function(commute.labeled){
+	hist <- ggplot(commute.labeled, aes(x=Duration, color=Label)) +
+		geom_density() +
+		xlab("Ride duration (minutes)") +
+		ylab("Fraction of occurrences")
 	return(hist)
 }
 
-density_by_day <- function(commute.data){
-	hist <- ggplot(commute.data, aes(x=Duration, colour=Weekday)) + geom_density(alpha=.3)
+visualisation_from_vs_to_by_day <- function(commute.data){
+	hist <- ggplot(commute.data, aes(x=Duration, color=Label)) +
+		geom_density() +
+		facet_grid(Weekday ~.) +
+		xlab("Ride duration (minutes)") +
+		ylab("Fraction of occurrences")
 	return(hist)
 }
