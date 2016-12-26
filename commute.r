@@ -47,20 +47,20 @@ extract_commute_leg <- function(tfl_data, from, to, start.time, interval = 60){
 }
 
 merge_labeled <- function(commute.to, commute.from){
-	commute.to$Label <- factor("To")
-	commute.from$Label <- factor("From")
+	commute.to$Direction <- factor("To")
+	commute.from$Direction <- factor("From")
 	return(rbind(commute.to, commute.from))
 }
 
 start_time_from_vs_to <- function(commute.labeled){
-	chart <- ggplot(commute.labeled, aes(x=Date, y=(Start.Time/60), colour=Label)) +
+	chart <- ggplot(commute.labeled, aes(x=Date, y=(Start.Time/60), colour= Direction)) +
 		geom_point() +
-		ylab("Ride start time (hour of the day)")
+		scale_y_discrete(name="Ride start time (hour of the day)", limits=7:19)
 	return(chart)
 }
 
 visualisation_from_vs_to <- function(commute.labeled){
-	hist <- ggplot(commute.labeled, aes(x=Duration, color=Label)) +
+	hist <- ggplot(commute.labeled, aes(x=Duration, color= Direction)) +
 		geom_density() +
 		xlab("Ride duration (minutes)") +
 		ylab("Fraction of occurrences")
@@ -68,7 +68,7 @@ visualisation_from_vs_to <- function(commute.labeled){
 }
 
 visualisation_from_vs_to_by_day <- function(commute.data){
-	hist <- ggplot(commute.data, aes(x=Duration, color=Label)) +
+	hist <- ggplot(commute.data, aes(x=Duration, color= Direction)) +
 		geom_density() +
 		facet_grid(Weekday ~.) +
 		xlab("Ride duration (minutes)") +
