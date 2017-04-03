@@ -6,8 +6,8 @@ The goal of this project is to provide an easy way to explore TFL data. Once you
 ```
 # Preparation of the data
 tfl_data <- load_folder('~/Data/TFL/')
-commute.to <- extract_commute_leg(tfl_data, "Tottenham Hale [London Underground]", "Warren Street", 7, 120)
-commute.from <- extract_commute_leg(tfl_data, "Warren Street", "Tottenham Hale [London Underground]", 17, 120)
+commute.to <- extract_commute_leg(tfl_data, "Tottenham Hale [London Underground]", "Warren Street", 7, 150)
+commute.from <- extract_commute_leg(tfl_data, "Warren Street", "Tottenham Hale [London Underground]", 17, 150)
 commute.labeled <- merge_labeled(commute.to, commute.from)
 #Visualizations
 start_time_from_vs_to(commute.labeled)
