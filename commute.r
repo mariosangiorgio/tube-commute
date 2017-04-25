@@ -91,3 +91,15 @@ visualisation_from_vs_to_by_day <- function(commute.data){
 		ylab("Fraction of occurrences")
 	return(hist)
 }
+
+visualise_time_vs_duration <- function(commute.labeled){
+  format_hours <- function(minutes){
+    return(sprintf("%d:%02d", as.integer(minutes%/%60), as.integer(minutes%%60)))
+  }
+  plot <- ggplot(commute.labeled, aes(Start.Time, Duration)) +
+    geom_point() +
+    facet_grid(. ~Direction, scales = "free") +
+    scale_x_continuous("Touch in time", breaks = seq(420,1200,30), labels = format_hours) +
+    scale_y_continuous("Time till touch out", labels = scales::unit_format(unit = "min"))
+  return(plot)
+}
