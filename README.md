@@ -13,4 +13,5 @@ commute.labeled <- merge_labeled(commute.to, commute.from)
 start_time_from_vs_to(commute.labeled)
 visualisation_from_vs_to(commute.labeled)
 visualisation_from_vs_to_by_day(commute.labeled)
+visualise_time_vs_duration(commute.labeled)
 ```
