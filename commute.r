@@ -96,10 +96,21 @@ visualise_time_vs_duration <- function(commute.labeled){
   format_hours <- function(minutes){
     return(sprintf("%d:%02d", as.integer(minutes%/%60), as.integer(minutes%%60)))
   }
+  # Displaying points loses data. The more samples there are the more likely it is
+  # that there will be a clash between different rides that touched in and out at the
+  # same time.
+  # The heatmap solves this issue but to get a decent visualisation requires
+  # it's better to take bins of 5 minutes for the touch in time. This prevents too
+  # many missing values to show up.
+  # Keeping the full granularity for ride duration works fine.
   plot <- ggplot(commute.labeled, aes(Start.Time, Duration)) +
-    geom_point() +
+    geom_bin2d(drop=TRUE, binwidth=c(5,1), show.legend = FALSE) +
     facet_grid(. ~Direction, scales = "free") +
     scale_x_continuous("Touch in time", breaks = seq(420,1200,30), labels = format_hours) +
-    scale_y_continuous("Time till touch out", labels = scales::unit_format(unit = "min"))
+    scale_y_continuous("Ride duration", labels = scales::unit_format(unit = "min")) +
+    scale_fill_continuous("Count", low = "white", high = "black", limits=c(0,NA)) +    
+    theme_bw() +
+    # for facet grid
+    theme(strip.background = element_rect(colour="white", fill="white"), legend.position = 'bottom')
   return(plot)
 }
