@@ -15,3 +15,9 @@ visualisation_from_vs_to(commute.labeled)
 visualisation_from_vs_to_by_day(commute.labeled)
 visualise_time_vs_duration(commute.labeled)
 ```
+
+# Jupyter notebook
+To use the noteboot without having the output and the metadata included
+in the commits, run `git config --local include.path ../.gitconfig`.
+It will load the config stored in this repository and strip them out.
+NOTE: it requires [jq](https://stedolan.github.io/jq/)
